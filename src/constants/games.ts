@@ -1,0 +1,48 @@
+import type { GameConfig } from '@/types/game';
+
+export const GAMES: GameConfig[] = [
+  {
+    id: 'mouth-opening',
+    name: '입 운동',
+    description: '벌리고 오므리고!',
+    icon: '👄',
+    route: '/mouth-opening',
+    status: 'available',
+    totalRounds: 5,
+    roundDurationSec: 10,
+    restBetweenRoundsSec: 2,
+  },
+  {
+    id: 'sound-balloon',
+    name: '소리 열기구',
+    description: '소리로 열기구를 날려봐!',
+    icon: '🎈',
+    route: '/sound-balloon',
+    status: 'locked',
+    totalRounds: 5,
+    roundDurationSec: 8,
+    restBetweenRoundsSec: 2,
+  },
+  {
+    id: 'follow-speech',
+    name: '따라 말하기',
+    description: '따라해 봐!',
+    icon: '🗣️',
+    route: '/follow-speech',
+    status: 'locked',
+    totalRounds: 5,
+    roundDurationSec: 15,
+    restBetweenRoundsSec: 3,
+  },
+  {
+    id: 'my-records',
+    name: '나의 기록',
+    description: '나의 성장 기록을 볼 수 있어!',
+    icon: '📊',
+    route: '/records',
+    status: 'available',
+    totalRounds: 0,
+    roundDurationSec: 0,
+    restBetweenRoundsSec: 0,
+  },
+];
