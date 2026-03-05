@@ -25,7 +25,14 @@ import {
   STAR_THRESHOLDS,
   BONUS_PEAK_THRESHOLD,
   JAW_OPEN_MAX_FOR_PUCKER,
+  REST_BETWEEN_ROUNDS_SEC,
 } from '@/constants/thresholds';
+
+const REST_MESSAGES = [
+  '잠깐 쉬자! 🌟',
+  '잘하고 있어! 💪',
+  '다음도 할 수 있어! 😊',
+];
 
 const OPEN_MESSAGES = [
   '입을 크~게 벌려봐!',
@@ -82,6 +89,7 @@ export default function MouthOpeningPlayPage() {
   const [rounds, setRounds] = useState<RoundResult[]>([]);
   const [countdownValue, setCountdownValue] = useState(3);
   const [currentValue, setCurrentValue] = useState(0);
+  const [restCountdown, setRestCountdown] = useState(0);
   const peakValueRef = useRef(0);
   const startTimeRef = useRef<number>(0);
 
@@ -231,12 +239,23 @@ export default function MouthOpeningPlayPage() {
     if (currentRound >= totalRounds) {
       finishGame();
     } else {
-      setCurrentRound((r) => r + 1);
-      peakValueRef.current = 0;
-      judgment.reset();
-      timer.reset();
-      setPhase('playing');
-      timer.start();
+      setPhase('resting');
+      let restTime = REST_BETWEEN_ROUNDS_SEC;
+      setRestCountdown(restTime);
+
+      const restInterval = setInterval(() => {
+        restTime--;
+        setRestCountdown(restTime);
+        if (restTime <= 0) {
+          clearInterval(restInterval);
+          setCurrentRound((r) => r + 1);
+          peakValueRef.current = 0;
+          judgment.reset();
+          timer.reset();
+          setPhase('playing');
+          timer.start();
+        }
+      }, 1000);
     }
   }, [currentRound, totalRounds, judgment, timer]);
 
@@ -406,6 +425,22 @@ export default function MouthOpeningPlayPage() {
 
       {(phase === 'round-success' || phase === 'round-fail') && (
         <RoundFeedback success={phase === 'round-success'} />
+      )}
+
+      {/* Rest between rounds */}
+      {phase === 'resting' && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-3xl p-8 mx-8 text-center shadow-xl">
+            <div className="text-5xl mb-4">😌</div>
+            <p className="text-xl font-bold text-sky-500 mb-2">
+              {REST_MESSAGES[currentRound % REST_MESSAGES.length]}
+            </p>
+            <p className="text-gray-500 mb-4">다음 라운드까지</p>
+            <div className="text-4xl font-bold text-sky-400">
+              {restCountdown}
+            </div>
+          </div>
+        </div>
       )}
 
       <PauseOverlay
