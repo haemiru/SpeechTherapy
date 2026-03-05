@@ -20,6 +20,7 @@ export interface GameConfig {
 export type GamePhase =
   | 'ready'       // 준비 화면
   | 'countdown'   // 3-2-1 카운트다운
+  | 'waiting'     // 사용자 탭 대기 (따라 말하기용)
   | 'playing'     // 진행 중
   | 'round-success' // 라운드 성공
   | 'round-fail'    // 라운드 시간 초과
