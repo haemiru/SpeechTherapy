@@ -2,7 +2,7 @@
 
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { useFaceLandmarker } from './useFaceLandmarker';
-import { extractMouthMetrics } from '@/utils/faceGeometry';
+import { extractMouthMetrics, extractTongueMetrics } from '@/utils/faceGeometry';
 import type { MouthMetrics } from '@/types/sensor';
 
 interface MouthMetricsState {
@@ -63,7 +63,9 @@ export function useMouthMetrics() {
         if (result && result.faceBlendshapes && result.faceBlendshapes.length > 0) {
           const blendshapes = result.faceBlendshapes[0].categories;
           const { jawOpen, mouthOpen, mouthPucker } = extractMouthMetrics(blendshapes);
-          metricsRef.current = { jawOpen, mouthOpen, mouthPucker, lipDistance: jawOpen };
+          const { tongueOut, tongueUp, tongueLeft, tongueRight } = extractTongueMetrics(blendshapes);
+
+          metricsRef.current = { jawOpen, mouthOpen, mouthPucker, lipDistance: jawOpen, tongueOut, tongueUp, tongueLeft, tongueRight };
           setState((s) => (s.faceDetected ? s : { ...s, faceDetected: true }));
         } else {
           metricsRef.current = null;

@@ -85,7 +85,7 @@ export default function ResultPage() {
           variant="primary"
           fullWidth
           size="lg"
-          onClick={() => router.push('/mouth-opening')}
+          onClick={() => router.push(`/${result.gameId}`)}
         >
           🔄 한번 더!
         </Button>

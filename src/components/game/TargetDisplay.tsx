@@ -10,10 +10,16 @@ interface TargetDisplayProps {
   className?: string;
 }
 
-const ROUND_TYPE_CONFIG = {
+const ROUND_TYPE_CONFIG: Record<RoundType, { emoji: string; label: string }> = {
   open: { emoji: '😮', label: '벌려!' },
   pucker: { emoji: '😙', label: '오므려!' },
-} as const;
+  'tongue-out': { emoji: '😛', label: '혀를 내밀어!' },
+  'tongue-up': { emoji: '👅', label: '혀를 위로!' },
+  'tongue-left': { emoji: '😜', label: '혀를 왼쪽!' },
+  'tongue-right': { emoji: '😝', label: '혀를 오른쪽!' },
+  'sustain': { emoji: '🎤', label: '소리 내봐!' },
+  'follow-speech': { emoji: '🗣️', label: '따라해 봐!' },
+};
 
 export function TargetDisplay({ message, isAtTarget, roundType = 'open', className }: TargetDisplayProps) {
   const config = ROUND_TYPE_CONFIG[roundType];
@@ -32,7 +38,10 @@ export function TargetDisplay({ message, isAtTarget, roundType = 'open', classNa
       </div>
       <div className={cn(
         'text-2xl font-black mb-1 transition-colors',
-        roundType === 'open' ? 'text-blue-500' : 'text-pink-500',
+        roundType === 'open' ? 'text-blue-500'
+          : roundType.startsWith('tongue') ? 'text-purple-500'
+          : roundType === 'sustain' ? 'text-orange-500'
+          : 'text-pink-500',
         isAtTarget && 'text-success'
       )}>
         {config.label}

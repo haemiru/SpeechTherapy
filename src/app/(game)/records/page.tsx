@@ -55,7 +55,7 @@ export default function RecordsPage() {
   }
 
   return (
-    <div className="flex-1 flex flex-col p-4 safe-bottom gap-5">
+    <div className="flex flex-col p-4 safe-bottom gap-5 pb-8">
       {/* Header */}
       <div className="flex items-center gap-3 py-2">
         <BackButton href="/home" />

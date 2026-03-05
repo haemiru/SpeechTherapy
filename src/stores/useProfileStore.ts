@@ -3,7 +3,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { ChildProfile, TherapistSettings } from '@/types/profile';
-import { MOUTH_OPEN_THRESHOLD, LIP_PUCKER_THRESHOLD, HOLD_DURATION_MS, DEFAULT_TOTAL_ROUNDS } from '@/constants/thresholds';
+import { MOUTH_OPEN_THRESHOLD, LIP_PUCKER_THRESHOLD, HOLD_DURATION_MS, DEFAULT_TOTAL_ROUNDS, TONGUE_HOLD_DURATION_MS, SOUND_VOLUME_THRESHOLD, SOUND_HOLD_DURATION_MS, SPEECH_SIMILARITY_THRESHOLD } from '@/constants/thresholds';
 
 interface ProfileStore {
   child: ChildProfile | null;
@@ -19,6 +19,15 @@ const defaultSettings: TherapistSettings = {
   lipPuckerThreshold: LIP_PUCKER_THRESHOLD,
   holdDurationMs: HOLD_DURATION_MS,
   totalRounds: DEFAULT_TOTAL_ROUNDS,
+  tongueThreshold: 0.3,
+  tongueHoldDurationMs: TONGUE_HOLD_DURATION_MS,
+  tongueTotalRounds: DEFAULT_TOTAL_ROUNDS,
+  soundBalloonThreshold: SOUND_VOLUME_THRESHOLD,
+  soundBalloonHoldMs: SOUND_HOLD_DURATION_MS,
+  soundBalloonTotalRounds: DEFAULT_TOTAL_ROUNDS,
+  followSpeechThreshold: SPEECH_SIMILARITY_THRESHOLD,
+  followSpeechLevel: 1,
+  followSpeechTotalRounds: DEFAULT_TOTAL_ROUNDS,
   soundEnabled: true,
   hapticEnabled: true,
 };

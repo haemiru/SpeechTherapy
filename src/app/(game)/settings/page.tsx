@@ -20,6 +20,7 @@ const ROUND_OPTIONS = [3, 5, 7] as const;
 
 const GAME_TABS = [
   { id: 'mouth-opening', label: '👄 입 운동' },
+  { id: 'tongue-exercises', label: '👅 혀 운동' },
   { id: 'sound-balloon', label: '🎈 소리 열기구' },
   { id: 'repeat-speech', label: '🗣️ 따라 말하기' },
 ] as const;
@@ -46,14 +47,14 @@ export default function SettingsPage() {
 
       <div className="flex-1 overflow-y-auto space-y-6">
         {/* 게임 탭 */}
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="grid grid-cols-4 gap-1.5">
           {GAME_TABS.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+              className={`px-1 py-1.5 rounded-full text-xs font-medium transition-colors truncate ${
                 activeTab === tab.id
-                  ? 'bg-primary text-white shadow-sm'
+                  ? 'bg-sky-500 text-white shadow-sm'
                   : 'bg-gray-100 text-gray-500'
               }`}
             >
@@ -156,20 +157,207 @@ export default function SettingsPage() {
           </section>
         )}
 
+        {activeTab === 'tongue-exercises' && (
+          <section>
+            <div className="bg-white rounded-2xl shadow-md p-4 space-y-5">
+              {/* 혀 운동 감도 */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">혀 내밀기 감도</span>
+                  <span className="text-xs font-bold text-primary">
+                    {getSensitivityLabel(settings.tongueThreshold ?? 0.3, 0.1, 0.6)}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={0.1}
+                  max={0.6}
+                  step={0.05}
+                  value={settings.tongueThreshold ?? 0.3}
+                  onChange={(e) => updateSettings({ tongueThreshold: Number(e.target.value) })}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                />
+                <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+                  <span>쉬움</span>
+                  <span>어려움</span>
+                </div>
+              </div>
+
+              {/* 유지 시간 */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">유지 시간</span>
+                  <span className="text-xs font-bold text-primary">
+                    {((settings.tongueHoldDurationMs ?? 300) / 1000).toFixed(1)}초
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={200}
+                  max={800}
+                  step={100}
+                  value={settings.tongueHoldDurationMs ?? 300}
+                  onChange={(e) => updateSettings({ tongueHoldDurationMs: Number(e.target.value) })}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                />
+                <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+                  <span>0.2초</span>
+                  <span>0.8초</span>
+                </div>
+              </div>
+
+              {/* 라운드 수 */}
+              <div>
+                <span className="text-sm font-medium text-gray-700 block mb-2">라운드 수</span>
+                <div className="flex gap-3">
+                  {ROUND_OPTIONS.map((n) => (
+                    <Button
+                      key={n}
+                      variant={(settings.tongueTotalRounds ?? 5) === n ? 'primary' : 'secondary'}
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => updateSettings({ tongueTotalRounds: n })}
+                    >
+                      {n}라운드
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {activeTab === 'sound-balloon' && (
           <section>
-            <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center justify-center min-h-[160px]">
-              <span className="text-4xl mb-3">🎈</span>
-              <p className="text-sm text-gray-400 font-medium">준비 중이에요!</p>
+            <div className="bg-white rounded-2xl shadow-md p-4 space-y-5">
+              {/* 음량 감도 */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">음량 감도</span>
+                  <span className="text-xs font-bold text-primary">
+                    {getSensitivityLabel(settings.soundBalloonThreshold ?? 0.3, 0.1, 0.6)}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={0.1}
+                  max={0.6}
+                  step={0.05}
+                  value={settings.soundBalloonThreshold ?? 0.3}
+                  onChange={(e) => updateSettings({ soundBalloonThreshold: Number(e.target.value) })}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                />
+                <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+                  <span>민감</span>
+                  <span>둔감</span>
+                </div>
+              </div>
+
+              {/* 유지 시간 */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">유지 시간</span>
+                  <span className="text-xs font-bold text-primary">
+                    {((settings.soundBalloonHoldMs ?? 1000) / 1000).toFixed(1)}초
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={500}
+                  max={3000}
+                  step={250}
+                  value={settings.soundBalloonHoldMs ?? 1000}
+                  onChange={(e) => updateSettings({ soundBalloonHoldMs: Number(e.target.value) })}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                />
+                <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+                  <span>0.5초</span>
+                  <span>3.0초</span>
+                </div>
+              </div>
+
+              {/* 라운드 수 */}
+              <div>
+                <span className="text-sm font-medium text-gray-700 block mb-2">라운드 수</span>
+                <div className="flex gap-3">
+                  {ROUND_OPTIONS.map((n) => (
+                    <Button
+                      key={n}
+                      variant={(settings.soundBalloonTotalRounds ?? 5) === n ? 'primary' : 'secondary'}
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => updateSettings({ soundBalloonTotalRounds: n })}
+                    >
+                      {n}라운드
+                    </Button>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
         )}
 
         {activeTab === 'repeat-speech' && (
           <section>
-            <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center justify-center min-h-[160px]">
-              <span className="text-4xl mb-3">🗣️</span>
-              <p className="text-sm text-gray-400 font-medium">준비 중이에요!</p>
+            <div className="bg-white rounded-2xl shadow-md p-4 space-y-5">
+              {/* 난이도 레벨 */}
+              <div>
+                <span className="text-sm font-medium text-gray-700 block mb-2">난이도</span>
+                <div className="flex gap-3">
+                  {([1, 2, 3] as const).map((lv) => (
+                    <Button
+                      key={lv}
+                      variant={(settings.followSpeechLevel ?? 1) === lv ? 'primary' : 'secondary'}
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => updateSettings({ followSpeechLevel: lv })}
+                    >
+                      {lv === 1 ? '음절' : lv === 2 ? '단어' : '문장'}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              {/* 정확도 감도 */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">정확도 감도</span>
+                  <span className="text-xs font-bold text-primary">
+                    {Math.round((settings.followSpeechThreshold ?? 0.6) * 100)}%
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={0.3}
+                  max={0.9}
+                  step={0.1}
+                  value={settings.followSpeechThreshold ?? 0.6}
+                  onChange={(e) => updateSettings({ followSpeechThreshold: Number(e.target.value) })}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                />
+                <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+                  <span>쉬움 (30%)</span>
+                  <span>어려움 (90%)</span>
+                </div>
+              </div>
+
+              {/* 라운드 수 */}
+              <div>
+                <span className="text-sm font-medium text-gray-700 block mb-2">라운드 수</span>
+                <div className="flex gap-3">
+                  {ROUND_OPTIONS.map((n) => (
+                    <Button
+                      key={n}
+                      variant={(settings.followSpeechTotalRounds ?? 5) === n ? 'primary' : 'secondary'}
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => updateSettings({ followSpeechTotalRounds: n })}
+                    >
+                      {n}라운드
+                    </Button>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
         )}

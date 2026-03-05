@@ -65,6 +65,7 @@ export default function HomePage() {
         <button
           className="flex flex-col items-center gap-1 text-gray-400 active:text-gray-600 touch-target"
           aria-label="프로필"
+          onClick={() => router.push('/profile')}
         >
           <span className="text-2xl">👤</span>
           <span className="text-xs">프로필</span>

@@ -18,7 +18,7 @@ No test runner configured yet.
 - **TypeScript** strict mode
 - **Tailwind CSS v4** (`@tailwindcss/postcss`)
 - **Zustand 5** + persist middleware → localStorage
-- **@mediapipe/tasks-vision** — Face Landmarker (jawOpen blendshape)
+- **@mediapipe/tasks-vision** — Face Landmarker (jawOpen, tongueOut, tongueUp blendshapes)
 - **Deployment**: Vercel (https://speech-therapy-ten-theta.vercel.app/)
 
 ## Architecture
@@ -29,8 +29,10 @@ src/
 ├── app/               # Next.js App Router pages
 │   ├── (game)/        # Game route group (shared layout with HydrationGuard)
 │   │   ├── home/      # Home screen
-│   │   ├── mouth-opening/      # Camera permission
-│   │   │   └── play/           # Game 1 play screen (core)
+│   │   ├── mouth-opening/      # Game 1: Camera permission
+│   │   │   └── play/           # Game 1 play screen (jaw/lip)
+│   │   ├── tongue-exercises/   # Game 4: Tongue exercise entry
+│   │   │   └── play/           # Game 4 play screen (tongue)
 │   │   ├── result/    # Result/reward screen
 │   │   └── puppy/     # Puppy detail screen
 │   └── globals.css    # Tailwind + keyframe animations
@@ -76,3 +78,19 @@ All UI text is in **Korean**. The app targets Korean-speaking children and paren
 - `docs/design/prototype.html` — Interactive UI prototype
 - `docs/design/ui-wireframes.md` — Wireframe specifications
 - `docs/design/puppy-growth-system.md` — Puppy growth rules
+
+## Games
+
+| # | Game ID | Name | Sensor | Status |
+|---|---------|------|--------|--------|
+| 1 | `mouth-opening` | 입 운동 | MediaPipe Face (jawOpen, mouthPucker) | ✅ Available |
+| 4 | `tongue-exercises` | 혀 운동 | MediaPipe Face (tongueOut, tongueUp, tongueLeft/Right) | 🔜 Next |
+| 2 | `sound-balloon` | 소리 열기구 | Web Audio API (volume dB) | 🔒 Locked |
+| 3 | `follow-speech` | 따라 말하기 | Web Speech API (pronunciation) | 🔒 Locked |
+
+Development priority: 구강운동(입+혀) → 발성(소리) → 조음(따라 말하기)
+
+## Meeting Notes
+
+- `docs/meetings/001-kickoff.md` — Kickoff meeting (MVP scope, clinical requirements)
+- `docs/meetings/002-tongue-exercise-design.md` — Tongue exercise game design

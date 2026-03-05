@@ -28,6 +28,26 @@ export function extractMouthMetrics(
 }
 
 /**
+ * MediaPipe Face Landmarker blendshapes에서 혀 관련 메트릭 추출
+ */
+export function extractTongueMetrics(
+  blendshapes: Array<{ categoryName: string; score: number }> | undefined
+): { tongueOut: number; tongueUp: number; tongueLeft: number; tongueRight: number } {
+  if (!blendshapes) return { tongueOut: 0, tongueUp: 0, tongueLeft: 0, tongueRight: 0 };
+
+  const tongueOut =
+    blendshapes.find((b) => b.categoryName === 'tongueOut')?.score ?? 0;
+  const tongueUp =
+    blendshapes.find((b) => b.categoryName === 'tongueUp')?.score ?? 0;
+  const tongueLeft =
+    blendshapes.find((b) => b.categoryName === 'tongueLeft')?.score ?? 0;
+  const tongueRight =
+    blendshapes.find((b) => b.categoryName === 'tongueRight')?.score ?? 0;
+
+  return { tongueOut, tongueUp, tongueLeft, tongueRight };
+}
+
+/**
  * 0~1 값을 백분율 문자열로 변환
  */
 export function toPercent(value: number): string {

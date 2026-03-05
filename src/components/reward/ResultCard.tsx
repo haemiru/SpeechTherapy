@@ -43,7 +43,13 @@ export function ResultCard({ result }: ResultCardProps) {
 
         {/* Peak value */}
         <div className="flex items-center justify-between">
-          <span className="text-gray-500">📈 최고 벌림</span>
+          <span className="text-gray-500">
+            {result.gameId === 'follow-speech'
+              ? '📈 최고 정확도'
+              : result.gameId === 'sound-balloon'
+              ? '📈 최고 음량'
+              : '📈 최고 벌림'}
+          </span>
           <span className="text-2xl font-bold text-gray-700">
             {toPercent(result.peakValue)}
           </span>
