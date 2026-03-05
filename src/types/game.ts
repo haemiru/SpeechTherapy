@@ -1,9 +1,9 @@
-export type GameId = 'mouth-opening' | 'sound-balloon' | 'follow-speech' | 'my-records';
+export type GameId = 'mouth-opening' | 'tongue-exercises' | 'sound-balloon' | 'follow-speech' | 'my-records' | 'report';
 
 export type GameStatus = 'locked' | 'available' | 'completed';
 
-/** 라운드 유형: 입 벌리기 or 입 오므리기 */
-export type RoundType = 'open' | 'pucker';
+/** 라운드 유형: 입 벌리기, 입 오므리기, 혀 운동, 발성 유지, 따라 말하기 */
+export type RoundType = 'open' | 'pucker' | 'tongue-out' | 'tongue-up' | 'tongue-left' | 'tongue-right' | 'sustain' | 'follow-speech';
 
 export interface GameConfig {
   id: GameId;
@@ -23,6 +23,7 @@ export type GamePhase =
   | 'playing'     // 진행 중
   | 'round-success' // 라운드 성공
   | 'round-fail'    // 라운드 시간 초과
+  | 'resting'     // 라운드 간 휴식
   | 'paused'      // 일시정지
   | 'finished';   // 모든 라운드 완료
 
