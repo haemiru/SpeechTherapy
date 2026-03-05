@@ -47,21 +47,21 @@ export default function ResultPage() {
           : '괜찮아! 다음에 더 잘할 수 있어! 🐾';
 
   return (
-    <div className="flex-1 flex flex-col p-4 safe-bottom relative">
+    <div className="flex-1 flex flex-col p-4 pb-8 safe-bottom relative">
       {/* Confetti */}
       {showConfetti && <ConfettiEffect />}
 
       {/* Celebration header */}
-      <div className="text-center py-6">
-        <div className="text-5xl mb-3 animate-bounce-in">🎉</div>
-        <h1 className="text-3xl font-bold text-gray-700 mb-1">
+      <div className="text-center py-4">
+        <div className="text-4xl mb-2 animate-bounce-in">🎉</div>
+        <h1 className="text-2xl font-bold text-gray-700 mb-1">
           정말 잘했어!
         </h1>
-        <p className="text-gray-500">오늘도 열심히 했구나!</p>
+        <p className="text-sm text-gray-500">오늘도 열심히 했구나!</p>
       </div>
 
       {/* Puppy reaction */}
-      <div className="flex flex-col items-center mb-6">
+      <div className="flex flex-col items-center mb-4">
         <PuppyAvatar stage={currentStage} size="lg" />
         <div className="bg-white rounded-2xl shadow-md px-6 py-3 mt-3 relative">
           <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 shadow-md" />
@@ -80,7 +80,7 @@ export default function ResultPage() {
       <ResultCard result={result} />
 
       {/* Action buttons */}
-      <div className="flex gap-3 mt-6">
+      <div className="flex gap-3 mt-4">
         <Button
           variant="primary"
           fullWidth
